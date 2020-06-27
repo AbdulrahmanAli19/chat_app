@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
+  final Function toggle ;
+  SignIn(this.toggle);
   @override
   _SignInState createState() => _SignInState();
 }
@@ -30,15 +32,20 @@ class _SignInState extends State<SignIn> {
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 8.0),
                   alignment: Alignment.centerRight,
-                  child: Container(
-                      child: Text(
-                        "Forgot Password?",
-                        style: TextStyle(
-                          fontSize: 16,
+                  child: GestureDetector(
+                    onTap: (){
+
+                    },
+                    child: Container(
+                        child: Text(
+                          "Forgot Password?",
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                          vertical: 16.0, horizontal: 10.0)),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 16.0, horizontal: 10.0)),
+                  ),
                 ),
                 signInButtons(
                     btnColor: Color(0xff1b4381),
@@ -61,11 +68,19 @@ class _SignInState extends State<SignIn> {
                           fontSize: 16,
                         ),
                       ),
-                      Text(
-                        "Register now!",
-                        style: TextStyle(
-                          fontSize: 16,
-                          decoration: TextDecoration.underline,
+                      GestureDetector(
+                        onTap: (){
+                          widget.toggle();
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 9.0),
+                          child: Text(
+                            "Register now!",
+                            style: TextStyle(
+                              fontSize: 16,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
                         ),
                       ),
                       SizedBox(height: 70),

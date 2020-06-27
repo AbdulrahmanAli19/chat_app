@@ -2,7 +2,11 @@ import 'package:chat_app/services/auth.dart';
 import 'package:chat_app/widgets/widget.dart';
 import 'package:flutter/material.dart';
 
+import 'chatrooms.dart';
+
 class SignUp extends StatefulWidget {
+  final Function toggle ;
+   SignUp( this.toggle);
   @override
   _SignUpState createState() => _SignUpState();
 }
@@ -21,11 +25,16 @@ class _SignUpState extends State<SignUp> {
         isLoading = true;
       });
       authMethods
-          .signUpWithEmail(email: etEmail.text, password: etPassword.text)
+          .signUpWithEmail(email: etEmail.text.trim(), password: etPassword.text)
           .then((value) => print(value));
-      setState(() {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChatRoom(),
+          ));
+      /* setState(() {
         isLoading = false;
-      });
+      });*/
     }
   }
 
@@ -62,7 +71,6 @@ class _SignUpState extends State<SignUp> {
                             ),
                             TextFormField(
                               decoration: InputDecoration(hintText: 'Email'),
-                              controller: etEmail,
                               validator: (value) {
                                 return RegExp(
                                             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -70,6 +78,7 @@ class _SignUpState extends State<SignUp> {
                                     ? null
                                     : "Enter correct email";
                               },
+                              controller: etEmail,
                             ),
                             TextFormField(
                               decoration: InputDecoration(hintText: 'Password'),
@@ -112,11 +121,19 @@ class _SignUpState extends State<SignUp> {
                                   fontSize: 16,
                                 ),
                               ),
-                              Text(
-                                "Sign In now!",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  decoration: TextDecoration.underline,
+                              GestureDetector(
+                                onTap: (){
+                                  widget.toggle();
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                                  child: Text(
+                                    "Sign In now!",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
                                 ),
                               ),
                               SizedBox(height: 70),
