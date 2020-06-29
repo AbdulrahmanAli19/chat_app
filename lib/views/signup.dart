@@ -1,3 +1,4 @@
+import 'package:chat_app/services/DatabaseMethods.dart';
 import 'package:chat_app/services/auth.dart';
 import 'package:chat_app/widgets/widget.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   bool isLoading = false;
   AuthMethods authMethods = new AuthMethods();
+  DatabaseMethods databaseMethods = new DatabaseMethods();
   final formKey = GlobalKey<FormState>();
   TextEditingController etUserName = new TextEditingController();
   TextEditingController etPassword = new TextEditingController();
@@ -21,20 +23,27 @@ class _SignUpState extends State<SignUp> {
 
   signMeUp() {
     if (formKey.currentState.validate()) {
+      Map<String, String> userInfo = {
+        "name" : etUserName.text,
+        "email" : etEmail.text,
+        "password" : etPassword.text,
+      };
+
       setState(() {
         isLoading = true;
       });
+
+      databaseMethods.uploadUserInfo(userInfo);
+
       authMethods
           .signUpWithEmail(email: etEmail.text.trim(), password: etPassword.text)
           .then((value) => print(value));
+
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => ChatRoom(),
           ));
-      /* setState(() {
-        isLoading = false;
-      });*/
     }
   }
 
