@@ -1,7 +1,6 @@
 import 'package:chat_app/halper/authenticate.dart';
 import 'package:chat_app/services/auth.dart';
 import 'package:chat_app/views/search.dart';
-import 'package:chat_app/views/signin.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -61,8 +60,8 @@ class _ChatRoomState extends State<ChatRoom> {
                   child: Column(
                     children: <Widget>[
                       Container(
-                        height: 100,
-                        width: 120,
+                        height: 85,
+                        width: 90,
                         child: CircleAvatar(
                           backgroundImage: AssetImage("assets/images/a.jpeg"),
                         ),
@@ -80,8 +79,8 @@ class _ChatRoomState extends State<ChatRoom> {
                   child: Column(
                     children: <Widget>[
                       Container(
-                        height: 100,
-                        width: 120,
+                        height: 85,
+                        width: 90,
                         child: CircleAvatar(
                           backgroundImage: AssetImage("assets/images/b.jpg"),
                         ),
@@ -99,8 +98,8 @@ class _ChatRoomState extends State<ChatRoom> {
                   child: Column(
                     children: <Widget>[
                       Container(
-                        height: 100,
-                        width: 120,
+                        height: 85,
+                        width: 90,
                         child: CircleAvatar(
                           backgroundImage: AssetImage("assets/images/c.jpg"),
                         ),
@@ -118,8 +117,8 @@ class _ChatRoomState extends State<ChatRoom> {
                   child: Column(
                     children: <Widget>[
                       Container(
-                        height: 100,
-                        width: 120,
+                        height: 85,
+                        width: 90,
                         child: CircleAvatar(
                           backgroundImage: AssetImage("assets/images/d.jpg"),
                         ),
@@ -137,8 +136,8 @@ class _ChatRoomState extends State<ChatRoom> {
                   child: Column(
                     children: <Widget>[
                       Container(
-                        height: 100,
-                        width: 120,
+                        height: 85,
+                        width: 90,
                         child: CircleAvatar(
                           backgroundImage: AssetImage("assets/images/e.jpg"),
                         ),

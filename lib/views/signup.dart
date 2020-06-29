@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'chatrooms.dart';
 
 class SignUp extends StatefulWidget {
-  final Function toggle ;
-   SignUp( this.toggle);
+  final Function toggle;
+
+  SignUp(this.toggle);
+
   @override
   _SignUpState createState() => _SignUpState();
 }
@@ -24,9 +26,9 @@ class _SignUpState extends State<SignUp> {
   signMeUp() {
     if (formKey.currentState.validate()) {
       Map<String, String> userInfo = {
-        "name" : etUserName.text,
-        "email" : etEmail.text,
-        "password" : etPassword.text,
+        "name": etUserName.text,
+        "email": etEmail.text,
+        "password": etPassword.text,
       };
 
       setState(() {
@@ -36,7 +38,8 @@ class _SignUpState extends State<SignUp> {
       databaseMethods.uploadUserInfo(userInfo);
 
       authMethods
-          .signUpWithEmail(email: etEmail.text.trim(), password: etPassword.text)
+          .signUpWithEmail(
+              email: etEmail.text.trim(), password: etPassword.text)
           .then((value) => print(value));
 
       Navigator.pushReplacement(
@@ -131,7 +134,7 @@ class _SignUpState extends State<SignUp> {
                                 ),
                               ),
                               GestureDetector(
-                                onTap: (){
+                                onTap: () {
                                   widget.toggle();
                                 },
                                 child: Container(
