@@ -1,3 +1,4 @@
+import 'package:chat_app/halper/helperfunction.dart';
 import 'package:chat_app/services/DatabaseMethods.dart';
 import 'package:chat_app/services/auth.dart';
 import 'package:chat_app/widgets/widget.dart';
@@ -19,27 +20,31 @@ class _SignUpState extends State<SignUp> {
   AuthMethods authMethods = new AuthMethods();
   DatabaseMethods databaseMethods = new DatabaseMethods();
   final formKey = GlobalKey<FormState>();
-  TextEditingController etUserName = new TextEditingController();
-  TextEditingController etPassword = new TextEditingController();
-  TextEditingController etEmail = new TextEditingController();
+  TextEditingController etcUserName = new TextEditingController();
+  TextEditingController etcPassword = new TextEditingController();
+  TextEditingController etcEmail = new TextEditingController();
 
   signMeUp() {
     if (formKey.currentState.validate()) {
       Map<String, String> userInfo = {
-        "name": etUserName.text,
-        "email": etEmail.text,
-        "password": etPassword.text,
+        "name": etcUserName.text,
+        "email": etcEmail.text,
+        "password": etcPassword.text,
       };
+
+      HelperFunction.saveUserEmail(etcEmail.text);
+      HelperFunction.saveUsername(etcUserName.text);
 
       setState(() {
         isLoading = true;
       });
 
       databaseMethods.uploadUserInfo(userInfo);
+      HelperFunction.saveUserLoggedIn(true);
 
       authMethods
           .signUpWithEmail(
-              email: etEmail.text.trim(), password: etPassword.text)
+              email: etcEmail.text.trim(), password: etcPassword.text)
           .then((value) => print(value));
 
       Navigator.pushReplacement(
@@ -74,7 +79,7 @@ class _SignUpState extends State<SignUp> {
                           children: <Widget>[
                             TextFormField(
                               decoration: InputDecoration(hintText: 'Username'),
-                              controller: etUserName,
+                              controller: etcUserName,
                               validator: (value) {
                                 return value.isEmpty || value.length < 2
                                     ? "Username can\'t be less than 4 characters or empty"
@@ -90,11 +95,11 @@ class _SignUpState extends State<SignUp> {
                                     ? null
                                     : "Enter correct email";
                               },
-                              controller: etEmail,
+                              controller: etcEmail,
                             ),
                             TextFormField(
                               decoration: InputDecoration(hintText: 'Password'),
-                              controller: etPassword,
+                              controller: etcPassword,
                               obscureText: true,
                               validator: (value) {
                                 return value.length < 6

@@ -1,3 +1,5 @@
+import 'package:chat_app/halper/constants.dart';
+import 'package:chat_app/halper/helperfunction.dart';
 import 'package:chat_app/services/DatabaseMethods.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -9,14 +11,29 @@ class SearchScreen extends StatefulWidget {
   _SearchScreenState createState() => _SearchScreenState();
 }
 
+String _myName ;
+
 class _SearchScreenState extends State<SearchScreen> {
   DatabaseMethods databaseMethods = new DatabaseMethods();
   TextEditingController etcSearch = new TextEditingController();
   QuerySnapshot searchSnapshot;
-
-  createChatRoomAndStartConversation(){
-    //databaseMethods.createChatRoom(chatRoomId, chatRoomMap)
+  Widget searchList() {
+    return searchSnapshot != null
+        ? ListView.builder(
+            itemCount: searchSnapshot.documents.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return SearchTitle(
+                username: searchSnapshot.documents[index].data["name"],
+                email: searchSnapshot.documents[index].data["email"],
+              );
+            },
+          )
+        : Container(
+            child: Text("null"),
+          );
   }
+
   initiateSearch() {
     databaseMethods.getUsersByUserName(etcSearch.text.trim()).then((val) {
       setState(() {
@@ -26,27 +43,17 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
-  Widget searchList() {
-    return searchSnapshot != null
-        ? ListView.builder(
-      itemCount: searchSnapshot.documents.length,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return SearchTitle(
-          username: searchSnapshot.documents[index].data["name"],
-          email: searchSnapshot.documents[index].data["email"],
-        );
-      },
-    )
-        : Container(
-      child: Text("null"),
-    );
-  }
 
   @override
   void initState() {
-    // TODO: implement initState
+    getUserInfo();
     super.initState();
+  }
+
+  getUserInfo() async {
+    _myName = await HelperFunction.getUsername();
+    setState(() {
+    });
   }
 
   @override
@@ -111,13 +118,13 @@ class SearchTitle extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 4,),
+              SizedBox(
+                height: 4,
+              ),
               Container(
                 child: Text(
                   email,
-                  style: TextStyle(
-                      color: Colors.white
-                  ),
+                  style: TextStyle(color: Colors.white),
                 ),
               )
             ],
@@ -125,8 +132,8 @@ class SearchTitle extends StatelessWidget {
           Spacer(),
           GestureDetector(
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MyConversation()));
+              createChatRoomAndStartConversation(
+                  context: context, username: username);
             },
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -140,4 +147,28 @@ class SearchTitle extends StatelessWidget {
       ),
     );
   }
+}
+
+getChatRoomId(String a, String b) {
+  if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+    return "$b\_$a";
+  } else {
+    return "$a\_$b";
+  }
+}
+
+createChatRoomAndStartConversation({String username, BuildContext context}) {
+  if (username != Constants.myName) {
+    String chatRoomId = getChatRoomId(username, Constants.myName);
+    List<String> users = [username, Constants.myName];
+    Map<String, dynamic> chatRoomMap = {
+      "users": users,
+      "chatroomid": chatRoomId
+    };
+    DatabaseMethods().createChatRoom(chatRoomId, chatRoomMap);
+    Navigator.push(
+        context, MaterialPageRoute(builder: (Context) => MyConversation()));
+    print(_myName);
+  }
+  print(_myName);
 }

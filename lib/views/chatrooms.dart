@@ -1,4 +1,6 @@
 import 'package:chat_app/halper/authenticate.dart';
+import 'package:chat_app/halper/constants.dart';
+import 'package:chat_app/halper/helperfunction.dart';
 import 'package:chat_app/services/auth.dart';
 import 'package:chat_app/views/search.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +13,18 @@ class ChatRoom extends StatefulWidget {
 
 class _ChatRoomState extends State<ChatRoom> {
   AuthMethods authMethods = new AuthMethods();
+
+  @override
+  void initState() {
+    getUserInfo();
+    super.initState();
+  }
+
+  getUserInfo() async {
+    Constants.myName = await HelperFunction.getUsername().toString();
+    setState(() {
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +59,6 @@ class _ChatRoomState extends State<ChatRoom> {
               ),
             ),
           )
-
         ],
       ),
       body: Container(

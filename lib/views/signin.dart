@@ -1,5 +1,8 @@
+import 'package:chat_app/halper/helperfunction.dart';
+import 'package:chat_app/services/DatabaseMethods.dart';
 import 'package:chat_app/services/auth.dart';
 import 'package:chat_app/widgets/widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -19,26 +22,37 @@ class _SignInState extends State<SignIn> {
 
   final formKey1 = GlobalKey<FormState>();
   AuthMethods authMethods = new AuthMethods();
+  QuerySnapshot snapshot;
+
+  DatabaseMethods databaseMethods = new DatabaseMethods();
   TextEditingController etcEmail = new TextEditingController();
   TextEditingController etcPassword = new TextEditingController();
 
+
   signMeIn() {
     if (formKey1.currentState.validate()) {
+      HelperFunction.saveUserEmail(etcEmail.text);
+
+      databaseMethods.getUsersByUserEmail(etcEmail.text).then((val) {
+        snapshot = val;
+        HelperFunction.saveUsername(snapshot.documents[0].data["name"]);
+      });
+
       setState(() {
         isLoading = true;
       });
 
       authMethods
           .signInWithEmail(
-              email: etcEmail.text.trim(), password: etcPassword.text)
-          .then((value) => print(value));
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ChatRoom(),
-          ));
-       setState(() {
-        isLoading = false;
+              email: etcEmail.text.trim(), password: etcPassword.text.trim())
+          .then((value) {
+        if (value != null) {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChatRoom(),
+              ));
+        }
       });
     }
   }
@@ -50,7 +64,7 @@ class _SignInState extends State<SignIn> {
       body: SingleChildScrollView(
         child: isLoading
             ? Center(
-                child: CircularProgressIndicator(),
+                child: Container(child: CircularProgressIndicator()),
               )
             : Container(
                 height: MediaQuery.of(context).size.height - 200,
@@ -71,8 +85,8 @@ class _SignInState extends State<SignIn> {
                                 controller: etcEmail,
                                 validator: (val) {
                                   return RegExp(
-                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                      .hasMatch(val)
+                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                          .hasMatch(val)
                                       ? null
                                       : "Enter correct email";
                                 },
@@ -108,10 +122,10 @@ class _SignInState extends State<SignIn> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: (){
-                          try{
+                        onTap: () {
+                          try {
                             signMeIn();
-                          }catch(e){
+                          } catch (e) {
                             print(e.toString());
                           }
                         },
