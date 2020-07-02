@@ -22,9 +22,41 @@ class DatabaseMethods {
   }
 
   createChatRoom(String chatRoomId, chatRoomMap) {
-    Firestore.instance.collection("chatRoom").document(chatRoomId).setData(
-        chatRoomMap).catchError((error) {
+    Firestore.instance
+        .collection("chatRoom")
+        .document(chatRoomId)
+        .setData(chatRoomMap)
+        .catchError((error) {
       print("chatRoom error: ${error.toString()}");
     });
+  }
+
+  addConversationMessages({String chatRoomId, messageMap}) {
+    Firestore.instance
+        .collection("chatRoom")
+        .document(chatRoomId)
+        .collection("chats")
+        .add(messageMap)
+        .catchError((error) {
+      print("getConversationErrors : ${error.toString()}");
+    });
+  }
+
+  getConversationMessages({String chatRoomId}) async {
+    return await Firestore.instance
+        .collection("chatRoom")
+        .document(chatRoomId)
+        .collection("chats")
+        .orderBy("time")
+        .snapshots();
+  }
+
+  bra({String chatRoomId, String username}) async {
+    return await await Firestore.instance
+        .collection("chatRoom")
+        .document(chatRoomId)
+        .collection("chats")
+        .where("sendBy", isEqualTo: username)
+        .getDocuments();
   }
 }

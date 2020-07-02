@@ -169,9 +169,9 @@ createChatRoomAndStartConversation({String username, BuildContext context}) {
     };
     DatabaseMethods().createChatRoom(chatRoomId, chatRoomMap);
     Navigator.push(
-        context, MaterialPageRoute(builder: (Context) => MyConversation()));
+        context, MaterialPageRoute(builder: (Context) => MyConversation(chatRoomId: chatRoomId,)));
     print(_myName);
   }
   Constants.otherUSer = _otherName;
-  print(_myName);
+  Constants.myName = _myName;
 }
