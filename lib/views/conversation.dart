@@ -67,7 +67,10 @@ class _MyConversationState extends State<MyConversation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(Constants.otherUSer),
+        title: Text(widget.chatRoomId
+            .toString()
+            .replaceAll("_", "")
+            .replaceAll(Constants.myName, "")),
       ),
       body: Container(
         child: Stack(
@@ -88,7 +91,7 @@ class _MyConversationState extends State<MyConversation> {
                           decoration: new InputDecoration(
                               border: new OutlineInputBorder(
                                 borderRadius: const BorderRadius.all(
-                                  const Radius.circular(40.0),
+                                  const Radius.circular(20.0),
                                 ),
                               ),
                               filled: true,
@@ -135,7 +138,7 @@ class messageTitle extends StatelessWidget {
       alignment: isItSentByMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         decoration: BoxDecoration(
-          color: isItSentByMe ? Color(0xffFDC324) : Colors.tealAccent,
+          color: isItSentByMe ? Color(0xffFDC324) : Colors.grey.shade200,
           borderRadius: isItSentByMe
               ? BorderRadius.only(
                   topLeft: Radius.circular(23),
@@ -147,7 +150,7 @@ class messageTitle extends StatelessWidget {
                   bottomRight: Radius.circular(23)),
         ),
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         child: Text(
           message,
           style: TextStyle(),

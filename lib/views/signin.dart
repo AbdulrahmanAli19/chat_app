@@ -28,16 +28,15 @@ class _SignInState extends State<SignIn> {
   TextEditingController etcEmail = new TextEditingController();
   TextEditingController etcPassword = new TextEditingController();
 
-
   signMeIn() {
     if (formKey1.currentState.validate()) {
       HelperFunction.saveUserEmail(etcEmail.text);
 
       databaseMethods.getUsersByUserEmail(etcEmail.text).then((val) {
         snapshot = val;
-        HelperFunction.saveUsername(snapshot.documents[0].data["name"]);
+        String name = snapshot.documents[0].data["name"];
+        HelperFunction.saveUsername(name);
       });
-
       setState(() {
         isLoading = true;
       });
@@ -63,10 +62,10 @@ class _SignInState extends State<SignIn> {
       appBar: appBarMain(context: context, title: "Sign In"),
       body: isLoading
           ? Center(
-        child: CircularProgressIndicator(),
-      )
+              child: CircularProgressIndicator(),
+            )
           : SingleChildScrollView(
-        child:  Container(
+              child: Container(
                 height: MediaQuery.of(context).size.height - 200,
                 alignment: Alignment.bottomCenter,
                 child: Container(
@@ -174,7 +173,7 @@ class _SignInState extends State<SignIn> {
                   ),
                 ),
               ),
-      ),
+            ),
     );
   }
 }

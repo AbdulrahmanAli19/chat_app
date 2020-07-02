@@ -51,12 +51,9 @@ class DatabaseMethods {
         .snapshots();
   }
 
-  bra({String chatRoomId, String username}) async {
-    return await await Firestore.instance
+  getChatRooms({String userName}) async {
+    return await Firestore.instance
         .collection("chatRoom")
-        .document(chatRoomId)
-        .collection("chats")
-        .where("sendBy", isEqualTo: username)
-        .getDocuments();
+        .where("users", arrayContains: userName).snapshots();
   }
 }
