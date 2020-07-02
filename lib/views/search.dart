@@ -12,6 +12,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 String _myName ;
+String _otherName ;
 
 class _SearchScreenState extends State<SearchScreen> {
   DatabaseMethods databaseMethods = new DatabaseMethods();
@@ -41,6 +42,7 @@ class _SearchScreenState extends State<SearchScreen> {
         print(etcSearch.text + " $val, ${val.documents[0].data["name"]}");
       });
     });
+    _otherName = etcSearch.text;
   }
 
 
@@ -133,7 +135,7 @@ class SearchTitle extends StatelessWidget {
           GestureDetector(
             onTap: () {
               createChatRoomAndStartConversation(
-                  context: context, username: username);
+                  context: context, username: username.trim());
             },
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -159,8 +161,8 @@ getChatRoomId(String a, String b) {
 
 createChatRoomAndStartConversation({String username, BuildContext context}) {
   if (username != Constants.myName) {
-    String chatRoomId = getChatRoomId(username, Constants.myName);
-    List<String> users = [username, Constants.myName];
+    String chatRoomId = getChatRoomId(username, _myName);
+    List<String> users = [username, _myName];
     Map<String, dynamic> chatRoomMap = {
       "users": users,
       "chatroomid": chatRoomId
@@ -170,5 +172,6 @@ createChatRoomAndStartConversation({String username, BuildContext context}) {
         context, MaterialPageRoute(builder: (Context) => MyConversation()));
     print(_myName);
   }
+  Constants.otherUSer = _otherName;
   print(_myName);
 }
