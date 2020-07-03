@@ -67,10 +67,21 @@ class _MyConversationState extends State<MyConversation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.chatRoomId
-            .toString()
-            .replaceAll("_", "")
-            .replaceAll(Constants.myName, "")),
+        title: Column(
+          children: <Widget>[
+            Text(widget.chatRoomId
+                .toString()
+                .replaceAll("_", "")
+                .replaceAll(Constants.myName, "")),
+            Text(
+              widget.chatRoomId
+                  .toString()
+                  .replaceAll("_", "")
+                  .replaceAll(Constants.myName, ""),
+              style: TextStyle(fontSize: 8),
+            ),
+          ],
+        ),
       ),
       body: Container(
         child: Stack(
@@ -79,21 +90,22 @@ class _MyConversationState extends State<MyConversation> {
             Container(
               alignment: Alignment.bottomCenter,
               child: Container(
-                color: Color(0xff1b4381),
+                color: Colors.white,
                 child: Row(
                   children: <Widget>[
                     Expanded(
                       child: Container(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                            EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                         child: TextField(
                           controller: tecMessage,
-                          decoration: new InputDecoration(
-                              border: new OutlineInputBorder(
-                                borderRadius: const BorderRadius.all(
-                                  const Radius.circular(20.0),
-                                ),
-                              ),
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(90.0)),
+                                  borderSide: BorderSide(
+                                    color: Colors.transparent,
+                                  )),
                               filled: true,
                               hintStyle: new TextStyle(color: Colors.grey[800]),
                               hintText: "Message",
@@ -110,7 +122,6 @@ class _MyConversationState extends State<MyConversation> {
                             EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                         child: CircleAvatar(
                           child: Icon(Icons.send),
-                          backgroundColor: Color(0xffFDC324),
                         ),
                       ),
                     ),

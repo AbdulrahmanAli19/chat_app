@@ -25,6 +25,7 @@ dependencies:
   cloud_firestore: ^0.13.7
   shared_preferences: ^0.5.7+3
   eva_icons_flutter: ^2.0.0
+  firebase_messaging: ^6.0.16
 
   flutter:
     sdk: flutter

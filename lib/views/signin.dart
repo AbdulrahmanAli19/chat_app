@@ -36,6 +36,7 @@ class _SignInState extends State<SignIn> {
         snapshot = val;
         String name = snapshot.documents[0].data["name"];
         HelperFunction.saveUsername(name);
+        HelperFunction.saveUserLoggedIn(true);
       });
       setState(() {
         isLoading = true;

@@ -253,10 +253,13 @@ class ChatRoomsTile extends StatelessWidget {
             Container(
               width: MediaQuery.of(context).size.width,
               height: 50,
-              child: Text(
-                username,
-                style: TextStyle(
-                  fontSize: 17,
+              child: Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  username,
+                  style: TextStyle(
+                    fontSize: 17,
+                  ),
                 ),
               ),
             )
