@@ -35,18 +35,26 @@ class _MyConversationState extends State<MyConversation> {
       stream: conversationStream,
       builder: (context, snapShot) {
         return snapShot.hasData
-            ? ListView.builder(
-                itemCount: snapShot.data.documents.length,
-                itemBuilder: (context, index) {
-                  return messageTitle(
-                    message: snapShot.data.documents[index].data["message"],
-                    isItSentByMe:
-                        snapShot.data.documents[index].data["sendBy"] ==
-                            Constants.myName,
-                  );
-                },
+            ? Expanded(
+                child: ListView.builder(
+                  reverse: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: snapShot.data.documents.length,
+                  itemBuilder: (context, index) {
+                    return messageTitle(
+                      message: snapShot.data.documents[index].data["message"],
+                      isItSentByMe:
+                          snapShot.data.documents[index].data["sendBy"] ==
+                              Constants.myName,
+                    );
+                  },
+                ),
               )
-            : Container();
+            : Container(
+                child: Center(
+                  child: Text("Start conversation"),
+                ),
+              );
       },
     );
   }
@@ -89,13 +97,10 @@ class _MyConversationState extends State<MyConversation> {
         ),
       ),
       body: Container(
-        child: Stack(
+        child: Column(
           children: <Widget>[
-            SingleChildScrollView(
-              child: Container(
-                height: MediaQuery.of(context).size.height - 150,
-                child: chatList(),
-              ),
+            Container(
+              child: chatList(),
             ),
             Container(
               alignment: Alignment.bottomCenter,
