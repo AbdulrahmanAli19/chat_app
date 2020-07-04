@@ -106,42 +106,51 @@ class _MyConversationState extends State<MyConversation> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 height: 60,
-                color: Colors.white,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                        child: TextField(
-                          controller: tecMessage,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(90.0)),
-                                  borderSide: BorderSide(
-                                    color: Colors.transparent,
-                                  )),
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(3, 2, 3, 2),
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        Color(0xffFDC324),
+                        Color(0xffe0aa21),
+                      ]),
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Container(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                          child: TextField(
+                            controller: tecMessage,
+                            decoration: InputDecoration(
+                              fillColor: Colors.transparent,
+                              focusedBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              hintStyle: TextStyle(),
                               filled: true,
-                              hintStyle: new TextStyle(color: Colors.grey[800]),
                               hintText: "Message",
-                              fillColor: Colors.white),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        sendMessage();
-                      },
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        child: CircleAvatar(
-                          child: Icon(Icons.send),
+                      GestureDetector(
+                        onTap: () {
+                          sendMessage();
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(right: 10),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 10),
+                          child: Icon(
+                            Icons.send,
+                            color: Color(0xff6a96d8),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
