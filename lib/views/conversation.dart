@@ -1,5 +1,6 @@
 import 'package:chat_app/halper/constants.dart';
 import 'package:chat_app/services/DatabaseMethods.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyConversation extends StatefulWidget {
@@ -69,16 +70,20 @@ class _MyConversationState extends State<MyConversation> {
       appBar: AppBar(
         title: Column(
           children: <Widget>[
-            Text(widget.chatRoomId
-                .toString()
-                .replaceAll("_", "")
-                .replaceAll(Constants.myName, "")),
-            Text(
-              widget.chatRoomId
+            Container(
+              alignment: Alignment.topLeft,
+              child: Text(widget.chatRoomId
                   .toString()
                   .replaceAll("_", "")
-                  .replaceAll(Constants.myName, ""),
-              style: TextStyle(fontSize: 8),
+                  .replaceAll(Constants.myName, "")),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 4),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "online",
+                style: TextStyle(fontSize: 10),
+              ),
             ),
           ],
         ),
@@ -86,10 +91,16 @@ class _MyConversationState extends State<MyConversation> {
       body: Container(
         child: Stack(
           children: <Widget>[
-            chatList(),
+            SingleChildScrollView(
+              child: Container(
+                height: MediaQuery.of(context).size.height - 150,
+                child: chatList(),
+              ),
+            ),
             Container(
               alignment: Alignment.bottomCenter,
               child: Container(
+                height: 60,
                 color: Colors.white,
                 child: Row(
                   children: <Widget>[

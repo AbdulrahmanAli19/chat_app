@@ -32,15 +32,15 @@ class _SignUpState extends State<SignUp> {
         "password": etcPassword.text,
       };
 
-      HelperFunction.saveUserEmail(etcEmail.text);
-      HelperFunction.saveUsername(etcUserName.text);
+      HelperFunction.setUserEmail(etcEmail.text);
+      HelperFunction.setUsername(etcUserName.text);
 
       setState(() {
         isLoading = true;
       });
 
       databaseMethods.uploadUserInfo(userInfo);
-      HelperFunction.saveUserLoggedIn(true);
+      HelperFunction.setUserLoggedIn(true);
 
       authMethods
           .signUpWithEmail(

@@ -30,13 +30,13 @@ class _SignInState extends State<SignIn> {
 
   signMeIn() {
     if (formKey1.currentState.validate()) {
-      HelperFunction.saveUserEmail(etcEmail.text);
+      HelperFunction.setUserEmail(etcEmail.text);
 
       databaseMethods.getUsersByUserEmail(etcEmail.text).then((val) {
         snapshot = val;
         String name = snapshot.documents[0].data["name"];
-        HelperFunction.saveUsername(name);
-        HelperFunction.saveUserLoggedIn(true);
+        HelperFunction.setUsername(name);
+        HelperFunction.setUserLoggedIn(true).then((value) {});
       });
       setState(() {
         isLoading = true;

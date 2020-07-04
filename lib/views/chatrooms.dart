@@ -20,8 +20,6 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   void initState() {
-    getUserInfo();
-    print(Constants.myName);
     super.initState();
   }
 
@@ -54,6 +52,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
   getUserInfo() async {
     HelperFunction.getUsername().then((value) => Constants.myName = value);
+    setState(() {});
     databaseMethods.getChatRooms(userName: Constants.myName).then((val) {
       setState(() {
         chatRoomStream = val;
@@ -66,6 +65,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   Widget build(BuildContext context) {
+    getUserInfo();
     return Scaffold(
       appBar: AppBar(
         title: Text("Messages"),
@@ -86,6 +86,10 @@ class _ChatRoomState extends State<ChatRoom> {
           GestureDetector(
             onTap: () {
               authMethods.signOut();
+              HelperFunction.setUsername("");
+              HelperFunction.setUserEmail("");
+              HelperFunction.setUserLoggedIn(false);
+              setState(() {});
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => Authenticate()));
             },
@@ -236,10 +240,11 @@ class ChatRoomsTile extends StatelessWidget {
                     )));
       },
       child: Container(
+        color: Colors.white38,
         child: Row(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+              padding: EdgeInsets.symmetric(horizontal: 20),
               child: Container(
                 width: 50,
                 height: 50,
@@ -249,17 +254,13 @@ class ChatRoomsTile extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(width: 20),
             Container(
-              width: MediaQuery.of(context).size.width,
-              height: 50,
-              child: Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  username,
-                  style: TextStyle(
-                    fontSize: 17,
-                  ),
+              margin: EdgeInsets.only(left: 10),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                username,
+                style: TextStyle(
+                  fontSize: 17,
                 ),
               ),
             )
